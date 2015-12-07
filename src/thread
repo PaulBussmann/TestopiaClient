@@ -1,0 +1,48 @@
+/**************************************************************************
+ *
+ * The GNU Lesser General Public License (LGPL)
+ * 
+ * Copyright (c) 2015 PaulBussmann
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ ***************************************************************************/
+
+#pragma once
+#ifndef _THREAD_
+#define _THREAD_
+
+namespace std
+{
+/// trivial implementation of thread class for pre-C++ 2011 compilers
+class thread
+{
+public:
+    thread(LPTHREAD_START_ROUTINE routine, LPVOID context)
+    {
+        DWORD threadId = 0;
+        HANDLE thread = CreateThread(NULL, 0x8000, routine, context, DEBUG_PROCESS, &threadId);
+
+        threads[0] = thread;
+    }
+    void join()
+    {
+        WaitForMultipleObjects(1, threads, TRUE, INFINITE);
+    }
+    HANDLE threads[1];
+};
+}
+
+#endif /* _THREAD_ */

@@ -1,3 +1,18 @@
+# 3rd party
+cpputest-3.7.2
+ulxmlrpcpp-1.7.5
+
+# IDE
+Debug
+Release
+Test
+*.sdf
+*.opensdf
+*.ipch
+language.settings.xml
+.metadata
+RemoteSystemsTempFiles
+
 # Compiled Object files
 *.slo
 *.lo

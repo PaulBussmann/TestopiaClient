@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClient", "TestopiaClient\TestopiaClient.vcxproj", "{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClientTest", "TestopiaClientTest\TestopiaClientTest.vcxproj", "{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Test|Win32 = Test|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Debug|Win32.Build.0 = Debug|Win32
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Release|Win32.ActiveCfg = Release|Win32
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Release|Win32.Build.0 = Release|Win32
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Test|Win32.ActiveCfg = Release|Win32
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}.Test|Win32.Build.0 = Release|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Debug|Win32.Build.0 = Debug|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Release|Win32.ActiveCfg = Release|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Release|Win32.Build.0 = Release|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Test|Win32.ActiveCfg = Release|Win32
+		{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}.Test|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
