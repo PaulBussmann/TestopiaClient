@@ -49,6 +49,7 @@ public:
 	TestopiaRpcClient(ulxr::CppString & user, ulxr::CppString & pass,
 			ulxr::CppString & host, unsigned port = 80, unsigned to_sec = 30);
 	~TestopiaRpcClient();
+    static const char* GetVersion(); 
 	ulxr::MethodResponse Call(const ulxr::Char *name, Struct& xmlRpcCallParam);
 
 	int ProductGetIdByName(const ulxr::Char * name);

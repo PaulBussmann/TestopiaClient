@@ -30,6 +30,11 @@ static TestopiaRpcClient* rpcClient = NULL;
 #include <mutex>
 std::mutex testCaseRunInitQueueMutex;
 
+const char* TestopiaClientCppUTestPlugin::GetVersion()
+{
+    return TESTOPIACLIENT_VERSION;
+}
+
 void TestopiaClientCppUTestPlugin::QueueTestCaseRunInit(const char* name)
 {
 #ifdef DEBUG_PRINTF

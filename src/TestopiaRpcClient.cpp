@@ -34,6 +34,11 @@ TestopiaRpcClient::TestopiaRpcClient(ulxr::CppString & user,
 TestopiaRpcClient::~TestopiaRpcClient() {
 }
 
+const char* TestopiaRpcClient::GetVersion()
+{
+    return TESTOPIARPCCLIENT_VERSION;
+}
+
 ulxr::MethodResponse TestopiaRpcClient::Call(const ulxr::Char *name,
 		Struct& xmlRpcCallParam) {
 #ifdef DEBUG_PRINTF

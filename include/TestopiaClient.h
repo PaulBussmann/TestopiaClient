@@ -50,6 +50,8 @@
 class TestopiaClientCppUTestPlugin : public TestPlugin
 {
 public:
+    static const char* GetVersion(); 
+
 	/// returns "<GroupName>, <TestName>". Same as command line test runner does in verbose mode.
 	static inline const char* TestGroupAndNameString(UtestShell& test, SimpleString& groupAndName)
 	{
