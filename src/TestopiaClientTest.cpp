@@ -6,7 +6,7 @@
 #define TESTOPIA_SERVER_HOSTNAME "localhost"
 #define TESTOPIA_USERNAME "admin@localhost.localdomain"
 #define TESTOPIA_PASSWORD "password"
-static const int C_testopiaClientProductId = 2;
+static const int C_testopiaClientProductId = 1;
 
 TEST_GROUP(TestopiaRpcClient)
 {
@@ -37,7 +37,7 @@ TEST(TestopiaRpcClient, TestEnvironmentGetIdByName)
 
 	int envId = 0;
 	try {
-		envId = rpcClient.EnvironmentGetIdByName("Linux_x86");
+		envId = rpcClient.EnvironmentGetIdByName("Windows");
 	}
 	catch(...){}
 	CHECK_EQUAL(1, envId);
@@ -72,7 +72,7 @@ TEST(TestopiaRpcClient, TestGetBuildIdByProductNameAndBuildName)
 	int buildId;
 
 	try {
-		buildId = rpcClient.BuildGetIdByProductNameAndBuildName("TestopiaClient", "V0.0.1.01");
+		buildId = rpcClient.BuildGetIdByProductNameAndBuildName("TestopiaClient", "V0.9");
 	}
 	catch(...){}
 	CHECK_EQUAL(1, buildId);
@@ -129,10 +129,10 @@ int main(int nArgc, char* ppArgv[])
 	testopiaClient.runManagerName = TESTOPIA_USERNAME;
 
 	testopiaClient.productVersion = "unspecified"; // TODO: create if missing
-	testopiaClient.build = "V0.0.1.01";
+	testopiaClient.build = "V0.9";
 	testopiaClient.product = "TestopiaClient";
-	testopiaClient.planId = 2;
-	testopiaClient.environment = "Linux_x86";
+	testopiaClient.planId = 1;
+	testopiaClient.environment = "Windows";
 
 	testopiaClient.runSummary = "API TEST RUN";
 
