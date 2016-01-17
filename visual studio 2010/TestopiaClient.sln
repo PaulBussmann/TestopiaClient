@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClient", "TestopiaClient\TestopiaClient.vcxproj", "{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClientLib", "TestopiaClientLib\TestopiaClientLib.vcxproj", "{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClientTest", "TestopiaClientTest\TestopiaClientTest.vcxproj", "{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}"
 EndProject

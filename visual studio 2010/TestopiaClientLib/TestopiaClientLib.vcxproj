@@ -13,9 +13,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>TestopiaClient</RootNamespace>
+    <RootNamespace>TestopiaClientLib</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>TestopiaClient</ProjectName>
+    <ProjectName>TestopiaClientLib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
