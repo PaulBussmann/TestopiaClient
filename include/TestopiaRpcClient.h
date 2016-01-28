@@ -23,7 +23,7 @@
 #ifndef TESTOPIARPCCLIENT_H_
 #define TESTOPIARPCCLIENT_H_
 
-#define TESTOPIARPCCLIENT_VERSION "0.9"
+#define TESTOPIARPCCLIENT_VERSION "0.9.2"
 
 #define ULXR_NEED_EXPORTS
 #include <ulxmlrpcpp/ulxmlrpcpp.h>  // always first header
@@ -43,6 +43,23 @@
 #include <ulxmlrpcpp/ulxr_log4j.h>
 
 using namespace ulxr;
+
+/// Assign Testopia test case state names to number
+typedef enum
+{
+	TestCaseStatus_IDLE = 1,
+	TestCaseStatus_PASSED = 2,
+	TestCaseStatus_FAILED = 3,
+	TestCaseStatus_RUNNING = 4,
+} TestCaseStatus;
+
+/// Assign Testopia test run state names to number
+typedef enum
+{
+	TestRunStatus_STOPPED = 0, // TODO
+	TestRunStatus_RUNNING = 1,
+} TestRunStatus;
+
 /// Testopia RPC access
 class TestopiaRpcClient {
 public:
@@ -52,6 +69,7 @@ public:
     static const char* GetVersion(); 
 	ulxr::MethodResponse Call(const ulxr::Char *name, Struct& xmlRpcCallParam);
 
+    int TestopiaUserGetIdByLogin(const ulxr::Char * name);
 	int ProductGetIdByName(const ulxr::Char * name);
 	int TestCaseCreateByPlanIdAndSummary(int testPlanId, const ulxr::Char * summary,
 			const ulxr::Char * status = "CONFIRMED",

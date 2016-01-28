@@ -23,7 +23,7 @@
 #ifndef TESTOPIACLIENT_H_
 #define TESTOPIACLIENT_H_
 
-#define TESTOPIACLIENT_VERSION "0.9"
+#define TESTOPIACLIENT_VERSION "0.9.2"
 
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTest/TestRegistry.h"
@@ -61,28 +61,12 @@ public:
 		return groupAndName.asCharString();
 	}
 
-	/// Assign Testopia test case state names to number
-	typedef enum
-	{
-		TestCaseStatus_IDLE = 1,
-		TestCaseStatus_PASSED = 2,
-		TestCaseStatus_FAILED = 3,
-		TestCaseStatus_RUNNING = 4,
-	} TestCaseStatus;
-
-	/// Assign Testopia test run state names to number
-	typedef enum
-	{
-		TestRunStatus_STOPPED = 0, // TODO
-		TestRunStatus_RUNNING = 1,
-	} TestRunStatus;
-
 #if TESTOPIA_CLIENT_THREADING
 	struct TestCaseNameAndStatus
 	{
 	public:
 		std::string name;
-		TestCaseStatus status;
+		int status;
 	};
 	/// Creates test run and updates test cases on request in Testopia (multi-threading)
 	void rpcClientWorker(void);
@@ -141,57 +125,16 @@ public:
 
 #if TESTOPIA_CLIENT_THREADING
 	/// Add to testCaseStatusChangeQueue
-	void QueueTestCaseRunUpdate(const char* name, TestCaseStatus status);
+	void QueueTestCaseRunUpdate(const char* name, int status);
 #endif
 	/// Update test case run at Testopia
-	void TestCaseRunUpdate(const char* name, TestCaseStatus status);
-
+	void TestCaseRunUpdate(const char* name, int status);
 
 	/// Interfacing CppUTest -> Testopia: Set TestCaseRun state "RUNNING" at Testopia when CppUTest Test _Case_ started
-	virtual void preTestAction(UtestShell& test, TestResult& result)
-    {
-    	SimpleString groupAndName;
-#if TESTOPIA_CLIENT_THREADING
-		QueueTestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), TestopiaClientCppUTestPlugin::TestCaseStatus_RUNNING);
-#else
-		TestCaseRunUpdate(TestopiaClientCppUTestPlugin::TestCaseStatus_RUNNING);
-#endif
-    }
+	virtual void preTestAction(UtestShell& test, TestResult& result);
 
 	/// Interfacing CppUTest -> Testopia: Set TestCaseRun state "FAILED"/"PASSED" at Testopia when CppUTest Test _Case_ finished
-	virtual void postTestAction(UtestShell& test, TestResult& result)
-    {
-    	SimpleString groupAndName;
-    	TestopiaClientCppUTestPlugin::TestCaseStatus status;
-
-    	if (test.hasFailed())
-    		status = TestopiaClientCppUTestPlugin::TestCaseStatus_FAILED;
-    	else
-    		status = TestopiaClientCppUTestPlugin::TestCaseStatus_PASSED;
-
-#if TESTOPIA_CLIENT_THREADING
-    	QueueTestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), status);
-#else
-		TestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), status);
-#endif
-		
-		// TODO: if exit if any test fails, abort all other tests!
-    	if (test.hasFailed())
-		{
-			switch (failureAction)
-			{
-			case FA_CONTINUE_TEST:
-			case FA_TEARDOWN_TEST:
-				break;
-			case FA_TERMINATE_APPLICATION:
-				// TODO
-			default:
-			case FA_EXIT_APPLICATION:
-				assert(false);
-				break;
-			}
-		}
-    }
+	virtual void postTestAction(UtestShell& test, TestResult& result);
 
 	typedef enum _FAILURE_ACTION 
 	{

@@ -67,6 +67,38 @@ ulxr::MethodResponse TestopiaRpcClient::Call(const ulxr::Char *name,
 	return client.call(xmlRpcCall, ULXR_PCHAR("/xmlrpc.cgi"));
 }
 
+//#$soapresult = $proxy->call('TestopiaUser.lookup_id_by_login', {login => 'gregaryh@gmail.com'} );
+int TestopiaRpcClient::TestopiaUserGetIdByLogin(const ulxr::Char * name) {
+	Struct xmlRpcCallParam;
+	ulxr::MethodResponse resp;
+	int testopiaUserId = 0;
+
+	RpcString nameString;
+	nameString.setString(name);
+	xmlRpcCallParam.addMember(ULXR_PCHAR("login"), nameString);
+
+    try {
+    	resp = Call(ULXR_PCHAR("TestopiaUser.lookup_id_by_login"), xmlRpcCallParam);
+#if 0
+	ULXR_COUT<< resp.getXml() << std::endl;
+    <?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><i4>1</i4></value></param></params></methodResponse>
+#endif
+
+	    Integer intTestopiaUserId = resp.getResult();
+	    testopiaUserId = intTestopiaUserId.getInteger();
+    }
+	catch (ulxr::Exception &ex) {
+		ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
+		<< std::endl;
+	}
+	catch (...) {
+		ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
+	}
+
+	return testopiaUserId;
+}
+
+
 int TestopiaRpcClient::ProductGetIdByName(const ulxr::Char * name) {
 	Struct xmlRpcCallParam;
 	ulxr::MethodResponse resp;
@@ -215,7 +247,6 @@ int TestopiaRpcClient::TestCaseGetIdByPlanIdAndSummary(int testPlanId,
 			testCaseId = intTestCaseId.getInteger();
 			break;
 		}
-
 	}
 	std::cout << "test case id: " << testCaseId << std::endl;
 
@@ -297,10 +328,15 @@ int TestopiaRpcClient::TestRunCreate(int plan_id,
 
 		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestRun.create"),
 				xmlRpcCallParam);
+
+        if (!resp.isOK())
+        {
+    		ULXR_COUT<< resp.getXml() << std::endl;
 #if 0
-		ULXR_COUT<< resp.getXml() << std::endl;
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
+            return 0;
+        }
 
 		Struct respStruct = resp.getResult();
 		Integer intRunId = respStruct.getMember("run_id");
@@ -316,11 +352,11 @@ int TestopiaRpcClient::TestRunCreate(int plan_id,
 	catch (ulxr::Exception &ex) {
 		ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
 		<< std::endl;
-		return 1;
+		return 0;
 	}
 	catch (...) {
 		ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
-		return 1;
+		return 0;
 	}
 
 	ULXR_COUT<< ULXR_PCHAR("TestRunCreate done. run_id ") << run_id << std::endl;
@@ -338,7 +374,16 @@ void TestopiaRpcClient::TestRunAddCase(int testCaseId, int runId) {
 	Struct xmlRpcCallParam;
 	xmlRpcCallParam.addMember(ULXR_PCHAR("case_ids"), arrCaseIds);
 	xmlRpcCallParam.addMember(ULXR_PCHAR("run_ids"), arrRunIds);
-	Call(ULXR_PCHAR("TestRun.add_cases"), xmlRpcCallParam);
+	try {
+		Call(ULXR_PCHAR("TestRun.add_cases"), xmlRpcCallParam);
+    }
+	catch (ulxr::Exception &ex) {
+		ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
+		<< std::endl;
+	}
+	catch (...) {
+		ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
+	}
 }
 
 void TestopiaRpcClient::TestRunStatusUpdate(int run_id, int status)
@@ -346,7 +391,16 @@ void TestopiaRpcClient::TestRunStatusUpdate(int run_id, int status)
 	Struct xmlRpcCallParam;
 	xmlRpcCallParam.addMember(ULXR_PCHAR("id"), Integer(run_id));
 	xmlRpcCallParam.addMember(ULXR_PCHAR("status"), Integer(status));
-	Call(ULXR_PCHAR("TestRun.update"), xmlRpcCallParam);
+	try {
+	    Call(ULXR_PCHAR("TestRun.update"), xmlRpcCallParam);
+    }
+	catch (ulxr::Exception &ex) {
+		ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
+		<< std::endl;
+	}
+	catch (...) {
+		ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
+	}
 }
 
 int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
@@ -371,18 +425,22 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		xmlRpcCallParam.addMember(ULXR_PCHAR("run_id"), Integer(testRunId));
 		xmlRpcCallParam.addMember(ULXR_PCHAR("build_id"), Integer(buildId));
 		xmlRpcCallParam.addMember(ULXR_PCHAR("env_id"), Integer(envId));
-		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.get"),
-				xmlRpcCallParam);
-#if 0
-		ULXR_COUT<< "TestCaseRun.get" << std::endl << resp.getXml() << std::endl;
-		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>assignee</name><value><i4>1</i4></value></member><member><name>build_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>3</i4></value></member><member><name>case_run_id</name><value><i4>28</i4></value></member><member><name>case_run_status_id</name><value><i4>1</i4></value></member><member><name>case_text_version</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>iscurrent</name><value><i4>1</i4></value></member><member><name>priority_id</name><value><i4>3</i4></value></member><member><name>run_id</name><value><i4>14</i4></value></member></struct></value></param></params></methodResponse>
-#endif
-
 		try {
+		    ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.get"),
+				    xmlRpcCallParam);
+
+            if (!resp.isOK())
+            {
+                ULXR_COUT<< "TestCaseRun.get" << std::endl << resp.getXml() << std::endl;
+#if 0
+	    	    <?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>assignee</name><value><i4>1</i4></value></member><member><name>build_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>3</i4></value></member><member><name>case_run_id</name><value><i4>28</i4></value></member><member><name>case_run_status_id</name><value><i4>1</i4></value></member><member><name>case_text_version</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>iscurrent</name><value><i4>1</i4></value></member><member><name>priority_id</name><value><i4>3</i4></value></member><member><name>run_id</name><value><i4>14</i4></value></member></struct></value></param></params></methodResponse>
+#endif
+            }
 			Struct respStruct = resp.getResult();
 			Integer intTestCaseRunId = respStruct.getMember("case_run_id");
 			testCaseRunId = intTestCaseRunId.getInteger();
 		} catch (...) {
+            return 0;
 		}
 	}
 
@@ -392,10 +450,21 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		xmlRpcCallParam.addMember(ULXR_PCHAR("run_id"), Integer(testRunId));
 		xmlRpcCallParam.addMember(ULXR_PCHAR("build_id"), Integer(buildId));
 		xmlRpcCallParam.addMember(ULXR_PCHAR("env_id"), Integer(envId));
-		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.create"),
-				xmlRpcCallParam);
-		ULXR_COUT<< "TestCaseRun.create" << std::endl << resp.getXml() << std::endl;
+
+        try {
+	        Call(ULXR_PCHAR("TestCaseRun.create"), xmlRpcCallParam);
+        }
+	    catch (ulxr::Exception &ex) {
+		    ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
+		    << std::endl;
+	    }
+	    catch (...) {
+		    ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
+	    }
+
 #if 0
+		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.create"), xmlRpcCallParam);
+		ULXR_COUT<< "TestCaseRun.create" << std::endl << resp.getXml() << std::endl;
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
 	}
@@ -406,12 +475,20 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		Struct xmlRpcCallParam;
 		xmlRpcCallParam.addMember(ULXR_PCHAR("ids"), arr);
 		xmlRpcCallParam.addMember(ULXR_PCHAR("status"), Integer(status));
-		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.update"),
-				xmlRpcCallParam);
+
+        try {
+	        Call(ULXR_PCHAR("TestCaseRun.update"), xmlRpcCallParam);
 #if 0
-		ULXR_COUT<< "TestCaseRun.update" << std::endl << resp.getXml() << std::endl;
-		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
+    		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
+        }
+	    catch (ulxr::Exception &ex) {
+		    ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
+		    << std::endl;
+	    }
+	    catch (...) {
+		    ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
+	    }
 	}
 
 	ULXR_COUT<< ULXR_PCHAR("TestCaseRunUpdate done. case_id " << testCaseId << ", case_run_id " << testCaseRunId << ", status " << status << std::endl);

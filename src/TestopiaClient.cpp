@@ -257,7 +257,7 @@ int TestopiaClientCppUTestPlugin::runRunAllTests(int ac, char** av) {
 
 // Add to testCaseStatusChangeQueue
 #if TESTOPIA_CLIENT_THREADING
-void TestopiaClientCppUTestPlugin::QueueTestCaseRunUpdate(const char* name, TestCaseStatus status)
+void TestopiaClientCppUTestPlugin::QueueTestCaseRunUpdate(const char* name, int status)
 {
 #ifdef DEBUG_PRINTF
 	printf("QueueTestCaseRunUpdate(%s)\n", name);
@@ -271,7 +271,7 @@ void TestopiaClientCppUTestPlugin::QueueTestCaseRunUpdate(const char* name, Test
 }
 #endif
 
-void TestopiaClientCppUTestPlugin::TestCaseRunUpdate(const char* name, TestCaseStatus status) {
+void TestopiaClientCppUTestPlugin::TestCaseRunUpdate(const char* name, int status) {
 	if (!rpcClient)
 		return;
 
@@ -279,3 +279,46 @@ void TestopiaClientCppUTestPlugin::TestCaseRunUpdate(const char* name, TestCaseS
 			buildId, envId, 0);
 }
 
+void TestopiaClientCppUTestPlugin::preTestAction(UtestShell& test, TestResult& result)
+{
+    SimpleString groupAndName;
+#if TESTOPIA_CLIENT_THREADING
+	QueueTestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), TestCaseStatus_RUNNING);
+#else
+	TestCaseRunUpdate(TestCaseStatus_RUNNING);
+#endif
+}
+
+void TestopiaClientCppUTestPlugin::postTestAction(UtestShell& test, TestResult& result)
+{
+    SimpleString groupAndName;
+    TestCaseStatus status;
+
+    if (test.hasFailed())
+    	status = TestCaseStatus_FAILED;
+    else
+    	status = TestCaseStatus_PASSED;
+
+#if TESTOPIA_CLIENT_THREADING
+    QueueTestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), status);
+#else
+	TestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), status);
+#endif
+		
+	// TODO: if exit if any test fails, abort all other tests!
+    if (test.hasFailed())
+	{
+		switch (failureAction)
+		{
+		case FA_CONTINUE_TEST:
+		case FA_TEARDOWN_TEST:
+			break;
+		case FA_TERMINATE_APPLICATION:
+			// TODO
+		default:
+		case FA_EXIT_APPLICATION:
+			assert(false);
+			break;
+		}
+	}
+}
