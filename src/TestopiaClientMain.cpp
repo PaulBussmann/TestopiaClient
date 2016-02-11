@@ -182,6 +182,7 @@ int main(int argc, char* argv[])
     // Read CppUTest output from cmd line
     while (!finished)
     {
+		line = "";
         std::getline(std::cin, line);  // read a line from std::cin into line
 
         // Product
@@ -244,7 +245,7 @@ int main(int argc, char* argv[])
         }
 
         // failure in test
-        if (contains(line, "): error: Failure in TEST("))
+        if (contains(line, ": error: Failure in TEST("))
         {
              failure = true;
              TestCaseRunUpdate(testname.c_str(), testCaseId, TestCaseStatus_FAILED);
