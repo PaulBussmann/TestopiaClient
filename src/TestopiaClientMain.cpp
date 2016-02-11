@@ -37,6 +37,11 @@ void TestRunInit()
 {
 	productId = rpcClient->ProductGetIdByName(strProduct.c_str());
     envId = rpcClient->EnvironmentGetIdByName(strEnvironment.c_str());
+    if (0 == envId)
+    {
+        envId = rpcClient->EnvironmentCreate(productId, strEnvironment.c_str(), 1);
+    }
+
     runManagerId = rpcClient->TestopiaUserGetIdByLogin(strRunManagerName.c_str());
 
 	// root@testopia:/var/www/html/Bugzilla/Version.pm

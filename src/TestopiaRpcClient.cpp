@@ -122,6 +122,35 @@ int TestopiaRpcClient::ProductGetIdByName(const ulxr::Char * name) {
 	return productId;
 }
 
+/* ('Environment.create', {product_id=>1, name=>'Environment '.time() , isactive=>1}) */
+int TestopiaRpcClient::EnvironmentCreate(int productId, const ulxr::Char * name, int isActive) {
+	Struct xmlRpcCallParam;
+	ulxr::MethodResponse resp;
+	int environmentId = 0;
+
+	RpcString stringEnvironmentName;
+	RpcString stringDescription;
+	stringEnvironmentName.setString(name);
+	xmlRpcCallParam.addMember(ULXR_PCHAR("product_id"), Integer(productId));
+	xmlRpcCallParam.addMember(ULXR_PCHAR("name"), stringEnvironmentName);
+	xmlRpcCallParam.addMember(ULXR_PCHAR("isactive"), Integer(isActive));
+
+	resp = Call(ULXR_PCHAR("Environment.create"), xmlRpcCallParam);
+	ULXR_COUT<< resp.getXml() << std::endl;
+#if 0
+	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>2</i4></value></member><member><name>description</name><value><string>TEST(TestopiaRpcClient, TestBuildCreate)</string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.02</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
+#endif
+
+	Struct respStruct = resp.getResult();
+	Integer intEnvironmentId = respStruct.getMember("environment_id");
+	environmentId = intEnvironmentId.getInteger();
+
+	std::cout << "Environment id: " << environmentId << std::endl;
+
+	return environmentId;
+}
+
+
 int TestopiaRpcClient::EnvironmentGetIdByName(const ulxr::Char * name) {
 	Struct xmlRpcCallParam;
 	ulxr::MethodResponse resp;
@@ -221,18 +250,26 @@ int TestopiaRpcClient::TestCaseGetIdByPlanIdAndSummary(int testPlanId,
 	Struct xmlRpcCallParam;
 	ulxr::MethodResponse resp;
 	int testCaseId = 0;
+	RpcString summaryString;
 
+    summaryString.setString(summary);
+
+	// TODO: add support for >1000 results (iterate pages)
+	xmlRpcCallParam.addMember(ULXR_PCHAR("pagesize"), Integer(1000));
+	xmlRpcCallParam.addMember(ULXR_PCHAR("page"), Integer(0));
+	xmlRpcCallParam.addMember(ULXR_PCHAR("summary"), summaryString);
+	if (-1 != isAutomated) {
+	    xmlRpcCallParam.addMember(ULXR_PCHAR("isautomated"), Integer(isAutomated));
+	}
 	if (0 != testPlanId) {
 		xmlRpcCallParam.addMember(ULXR_PCHAR("id"), Integer(testPlanId));
-		resp = Call(ULXR_PCHAR("TestPlan.get_test_cases"), xmlRpcCallParam);
-	} else {
-		// TODO: add support for >1000 results (iterate pages)
-		xmlRpcCallParam.addMember(ULXR_PCHAR("pagesize"), Integer(1000));
-		xmlRpcCallParam.addMember(ULXR_PCHAR("page"), Integer(0));
-		xmlRpcCallParam.addMember(ULXR_PCHAR("isautomated"),
-				Integer(isAutomated));
-		resp = Call(ULXR_PCHAR("TestCase.list"), xmlRpcCallParam);
 	}
+    resp = Call(ULXR_PCHAR("TestCase.list"), xmlRpcCallParam);
+
+#if 0
+    ULXR_COUT<< resp.getXml() << std::endl;
+    <?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>author_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>6</i4></value></member><member><name>case_status_id</name><value><i4>2</i4></value></member><member><name>category_id</name><value><i4>1</i4></value></member><member><name>creation_date</name><value><string>2016-02-02 15:57:01</string></value></member><member><name>isautomated</name><value><i4>1</i4></value></member><member><name>priority_id</name><value><i4>3</i4></value></member><member><name>summary</name><value><string>CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks, testInTestGroupName</string></value></member></struct></value></data></array></value></param></params></methodResponse>
+#endif
 
 	Array respArray = resp.getResult();
 	for (unsigned i = 0; i < respArray.size(); i++) {
@@ -248,7 +285,9 @@ int TestopiaRpcClient::TestCaseGetIdByPlanIdAndSummary(int testPlanId,
 			break;
 		}
 	}
+#if 0
 	std::cout << "test case id: " << testCaseId << std::endl;
+#endif
 
 	return testCaseId;
 }
@@ -275,6 +314,8 @@ int TestopiaRpcClient::TestCaseCreateByPlanIdAndSummary(int testPlanId,
 	xmlRpcCallParam.addMember(ULXR_PCHAR("category"), categoryString);
 	xmlRpcCallParam.addMember(ULXR_PCHAR("priority"), priorityString);
 	xmlRpcCallParam.addMember(ULXR_PCHAR("summary"), summaryString);
+	xmlRpcCallParam.addMember(ULXR_PCHAR("isautomated"),
+			Integer(1));
 
 	Array arr;
 	arr.addItem(Integer(testPlanId));

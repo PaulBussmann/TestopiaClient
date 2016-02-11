@@ -75,6 +75,8 @@ public:
 			const ulxr::Char * status = "CONFIRMED",
 			const ulxr::Char * category = "--default--",
 			const ulxr::Char * priority = "Normal");
+    /* ('Environment.create', {product_id=>1, name=>'Environment '.time() , isactive=>1}) */
+    int EnvironmentCreate(int productId, const ulxr::Char * name, int isActive);
 	int EnvironmentGetIdByName(const ulxr::Char * name);
 
 	int BuildCreate(const ulxr::Char * name, int productId, int isActive, const ulxr::Char * description);
@@ -82,7 +84,7 @@ public:
 	int BuildGetIdByProductNameAndBuildName(const ulxr::Char * productName, const ulxr::Char * buildName);
 
 	int TestCaseGetIdByPlanIdAndSummary(int testPlanId, const ulxr::Char * summary,
-			int isAutomated = 1);
+			int isAutomated = -1);
 	void TestRunAddCase(int testCaseId, int runId);
 	int TestCaseRunUpdate(const ulxr::Char * summary, int status, int testPlanId,
 			int testRunId, int buildId, int envId, int testCaseId = 0);
