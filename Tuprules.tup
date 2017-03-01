@@ -1,0 +1,10 @@
+# *** x86 ***
+ARCH_X86 = x86
+PREFIX_X86 = C:/MinGW/opt/Debian-Wheezy-i686-pc-linux-gnu-SDK/bin/i686-pc-linux-gnu-
+CFLAGS_X86 =
+
+!cpp_x86 = |> $(PREFIX_X86)g++ -Iinclude -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X86) -o %o |>
+!ar_x86 = |> $(PREFIX_X86)ar -r %o %f |>
+!link_x86 = |> $(PREFIX_X86)g++ $(LDFLAGS_X86) -o %o %f -lpthread |>
+
+
