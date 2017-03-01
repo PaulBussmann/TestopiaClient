@@ -8,4 +8,4 @@ srcs-TestopiaClientTest = src/TestopiaClientTest.cpp
 : {objs-TestopiaClient} |> !ar_x86 |> build-Linux/x86/Debug/libTestopiaClient.a
 
 : foreach $(srcs-TestopiaClientTest) |> !cpp_x86 -IC:/CppUTest/include -IC:/CppUTest/include/Platforms/Gcc -std=c++11 -DTESTOPIA_CLIENT_TEST |> build-Linux/x86/Debug/%B.o {objs-TestopiaClientTest}
-: build-Linux/x86/Debug/libTestopiaClient.a {objs-TestopiaClientTest} |> $(PREFIX_X86)g++ -std=c++11 $(LDFLAGS_X86) -o build-Linux/x86/Debug/TestopiaClientTest build-Linux/x86/Debug/TestopiaClientTest.o -Lbuild-Linux/x86/Debug -ltestopiaclient -lulxmlrpcpp -lcpputest -LC:/CppUTest/lib/Linux/x86 |> build-Linux/x86/Debug/TestopiaClientTest 
+: build-Linux/x86/Debug/libTestopiaClient.a {objs-TestopiaClientTest} |> $(PREFIX_X86)g++ -std=c++11 $(LDFLAGS_X86) -o build-Linux/x86/Debug/TestopiaClientTest build-Linux/x86/Debug/TestopiaClientTest.o -Lbuild-Linux/x86/Debug -ltestopiaclient -lulxmlrpcpp -lcpputest -LC:/CppUTest/lib/Linux/x86 -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/x86/Debug -lpthread -LC:/Users/Paul/src/expat/src/build-Linux/x86/Debug -lexpat |> build-Linux/x86/Debug/TestopiaClientTest 
