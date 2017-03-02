@@ -214,7 +214,7 @@ int TestopiaClientCppUTestPlugin::runRunAllTests(int ac, char** av) {
     rpcClientWorkerStop = false;
 
 	std::thread worker(
-#ifdef WINAPI
+#ifdef LPTHREAD_START_ROUTINE
 		(LPTHREAD_START_ROUTINE)
 #endif
 		staticRpcClientWorker, this);
