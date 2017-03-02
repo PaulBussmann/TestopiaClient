@@ -28,12 +28,11 @@ lflags-TestopiaClientTest-armhf = -Lbuild-Linux/$(ARCH_ARMHF)/Debug -LC:/CppUTes
 # *** PPC ***
 lflags-TestopiaClientTest-ppc = -Lbuild-Linux/PPC/Debug -LC:/CppUTest/lib/Linux/ppc -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/PPC/Debug -LC:/Users/Paul/src/expat/src/build-Linux/PPC/Debug $(lflags-TestopiaClientTest)
 
-# TODO: Fix mutex, thread for non-c++11!
-# : foreach $(srcs-TestopiaClient) |> !cpp_ppc $(cflags-TestopiaClient) |> build-Linux/PPC/Debug/%B.o {objs-TestopiaClient-ppc}
-# : {objs-TestopiaClient-ppc} |> !ar_ppc |> build-Linux/PPC/Debug/libTestopiaClient.a
+: foreach $(srcs-TestopiaClient) |> !cpp_ppc $(cflags-TestopiaClient) -Isrc |> build-Linux/PPC/Debug/%B.o {objs-TestopiaClient-ppc}
+: {objs-TestopiaClient-ppc} |> !ar_ppc |> build-Linux/PPC/Debug/libTestopiaClient.a
 
-# : foreach $(srcs-TestopiaClientTest) |> !cpp_ppc $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST |> build-Linux/PPC/Debug/%B.o {objs-TestopiaClientTest-ppc}
-# : build-Linux/PPC/Debug/libTestopiaClient.a {objs-TestopiaClientTest-ppc} |> $(PREFIX_ppc)g++ $(LDFLAGS_ppc) -o build-Linux/PPC/Debug/TestopiaClientTest build-Linux/PPC/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-ppc) |> build-Linux/PPC/Debug/TestopiaClientTest 
+: foreach $(srcs-TestopiaClientTest) |> !cpp_ppc $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST |> build-Linux/PPC/Debug/%B.o {objs-TestopiaClientTest-ppc}
+: build-Linux/PPC/Debug/libTestopiaClient.a {objs-TestopiaClientTest-ppc} |> $(PREFIX_ppc)g++ $(LDFLAGS_ppc) -o build-Linux/PPC/Debug/TestopiaClientTest build-Linux/PPC/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-ppc) |> build-Linux/PPC/Debug/TestopiaClientTest 
 
 # *** x64 ***
 lflags-TestopiaClientTest-x64 = -Lbuild-Linux/x64/Debug -LC:/CppUTest/lib/Linux/x64 -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/x64/Debug -LC:/Users/Paul/src/expat/src/build-Linux/x64/Debug $(lflags-TestopiaClientTest)
