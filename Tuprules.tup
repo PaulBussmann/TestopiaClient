@@ -1,10 +1,49 @@
+# *** ARM ***
+ARCH_ARM = armv4t-eabi
+PREFIX_ARM = C:/MinGW/opt/Sourcery_CodeBench_Lite_for_ARM_GNU_Linux/bin/arm-none-linux-gnueabi-
+CFLAGS_ARM = -Wno-psabi -mno-unaligned-access
+
+!gcc_arm = |> $(PREFIX_ARM)gcc -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_ARM) -o %o |>
+!cpp_arm = |> $(PREFIX_ARM)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_ARM) -o %o |>
+!ar_arm = |> $(PREFIX_ARM)ar -r %o %f |>
+!link_arm = |> $(PREFIX_ARM)g++ $(LDFLAGS_ARM) -static -o %o %f -lpthread |>
+
+# *** ARMHF ***
+ARCH_ARMHF = armv6-vfp-eabihf
+PREFIX_ARMHF = C:/MinGW/opt/Debian-Wheezy-ARM-Raspberry-Pi-SDK/bin/armv6-rpi-linux-gnueabi-
+CFLAGS_ARMHF = $(CFLAGS_ARM)
+
+!gcc_armhf = |> $(PREFIX_ARMHF)gcc -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_ARMHF) -o %o |>
+!cpp_armhf = |> $(PREFIX_ARMHF)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_ARMHF) -o %o |>
+!ar_armhf = |> $(PREFIX_ARMHF)ar -r %o %f |>
+!link_armhf = |> $(PREFIX_ARMHF)g++ $(LDFLAGS_ARMHF) -static -o %o %f -lpthread |>
+
+# *** PPC ***
+PREFIX_PPC = C:/MinGW/opt/freescale-2011.03/bin/powerpc-linux-gnu-
+CFLAGS_PPC = -te500v2
+LDFLAGS_PPC = -te500v2
+ 
+!gcc_ppc = |> $(PREFIX_PPC)gcc -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_PPC) -o %o |>
+!cpp_ppc = |> $(PREFIX_PPC)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_PPC) -o %o |>
+!ar_ppc = |> $(PREFIX_PPC)ar -r %o %f |>
+!link_ppc = |> $(PREFIX_PPC)g++ $(LDFLAGS_PPC) -o %o %f |>
+
+# *** x64 ***
+ARCH_X86_64 = x64
+PREFIX_X64 = C:/MinGW/opt/Debian-Wheezy-x86_64-pc-linux-gnu-SDK/bin/x86_64-pc-linux-gnu-
+CFLAGS_X86_64 = -fpic
+
+!gcc_x64 = |> $(PREFIX_X64)gcc -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X64) -o %o |>
+!cpp_x64 = |> $(PREFIX_X64)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X64) -o %o |>
+!ar_x64 = |> $(PREFIX_X64)ar -r %o %f |>
+!link_x64 = |> $(PREFIX_X64)g++ $(LDFLAGS_X64) -static -o %o %f -lpthread |>
+
 # *** x86 ***
 ARCH_X86 = x86
 PREFIX_X86 = C:/MinGW/opt/Debian-Wheezy-i686-pc-linux-gnu-SDK/bin/i686-pc-linux-gnu-
 CFLAGS_X86 =
 
-!cpp_x86 = |> $(PREFIX_X86)g++ -Iinclude -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X86) -o %o |>
+!gcc_x86 = |> $(PREFIX_X86)gcc -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X86) -o %o |>
+!cpp_x86 = |> $(PREFIX_X86)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X86) -o %o |>
 !ar_x86 = |> $(PREFIX_X86)ar -r %o %f |>
 !link_x86 = |> $(PREFIX_X86)g++ $(LDFLAGS_X86) -o %o %f -lpthread |>
-
-
