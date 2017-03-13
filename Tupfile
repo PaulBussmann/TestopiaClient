@@ -55,19 +55,18 @@ lflags-TestopiaClientTest-x86 = -L../build-Linux/x86/Debug -LC:/CppUTest/lib/Lin
 
 # *** VS2015 ***
 # TODO: ulxmlrpcpp, TestopiaClient non-DLL
-
-CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG = /c /DTESTOPIA_CLIENT_TEST /Iinclude /I"C:\Users\Paul\Documents\Visual Studio 2015\Projects\ulxmlrpcpp-1.7.5" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\shared" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\winrt" /IC:\CppUTest\include /IC:\CppUTest\include\Platforms\VisualCpp /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /D __NO_WSTRING__ /Fo"..\build-VS2015\\" /EHsc /nologo /MDd
+CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG =  /D TESTOPIA_CLIENT_TEST /D XML_STATIC /D ULXR_STATIC_LIB /D sleep=Sleep /Iinclude /I"C:\Users\Paul\Documents\Visual Studio 2015\Projects\ulxmlrpcpp-1.7.5" /IC:\CppUTest\include /IC:\CppUTest\include\Platforms\VisualCpp
 
 CFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG = $(CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG)
 
 LFLAGS_VS2015_DEBUG = /LIBPATH:"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86" /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib" /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86" ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /nologo
 
-LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG = $(LFLAGS_VS2015_DEBUG) /LIBPATH:C:\CppUTest\lib\vs2015 /LIBPATH:"C:\Users\Paul\Documents\Visual Studio 2015\Projects\ulxmlrpcpp-1.7.5\msvc71\ulxmlrpcpp\Debug" /LIBPATH:"C:\Program Files (x86)\Expat 2.1.0\Bin" libexpat.lib ulxmlrpcpp.lib CppUTestd.lib
+LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG = $(LFLAGS_VS2015_DEBUG) "/LIBPATH:visual studio 2015\Debug" /LIBPATH:C:\CppUTest\lib\vs2015 libexpat.lib ulxmlrpcpp.lib CppUTestd.lib
 
 LFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG = $(LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG) /LIBPATH:..\build-VS2015 TestopiaClient.lib
 
-: foreach $(srcs-TestopiaClient) |> "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe" $(CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG) %f |> ../build-VS2015/%B.obj {OBJS-TestopiaClient-VS2015-X86}
-: {OBJS-TestopiaClient-VS2015-X86} |> "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe" $(LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG)  /PDB:"..\build-VS2015\TestopiaClient.pdb" /IMPLIB:"..\build-VS2015\TestopiaClient.lib" /OUT:"..\build-VS2015\TestopiaClient.dll" %f /DLL |> ../build-VS2015/TestopiaClient.dll ../build-VS2015/TestopiaClient.exp ../build-VS2015/TestopiaClient.ilk ../build-VS2015/TestopiaClient.lib
+: foreach $(srcs-TestopiaClient) |> $(CL_VS2015) /c %f $(CFLAGS_VS2015) $(CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG) /Fo..\build-VS2015\%B.obj |> ../build-VS2015/%B.obj {OBJS-TestopiaClient-VS2015-X86}
+: {OBJS-TestopiaClient-VS2015-X86} |> $(LIB_VS2015) "/OUT:..\build-VS2015\TestopiaClient.lib" %f |> ../build-VS2015/TestopiaClient.lib 
 
-: foreach $(srcs-TestopiaClientTest) |> "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe" $(CFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) %f |> ../build-VS2015/%B.obj {OBJS-TestopiaClientTest-VS2015-X86}
-: {OBJS-TestopiaClientTest-VS2015-X86} ../build-VS2015/TestopiaClient.lib |> "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe" $(LFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) /PDB:"..\build-VS2015\TestopiaClientTest.pdb" /IMPLIB:"..\build-VS2015\TestopiaClientTest.lib" /OUT:"..\build-VS2015\TestopiaClientTest.exe" %f ..\build-VS2015\TestopiaClient.lib |> ../build-VS2015/TestopiaClientTest.exe ../build-VS2015/TestopiaClientTest.exp ../build-VS2015/TestopiaClientTest.ilk ../build-VS2015/TestopiaClientTest.lib
+: foreach $(srcs-TestopiaClientTest) |> $(CL_VS2015) /c %f $(CFLAGS_VS2015) $(CFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) /Fo..\build-VS2015\%B.obj |> ../build-VS2015/%B.obj {OBJS-TestopiaClientTest-VS2015-X86}
+: {OBJS-TestopiaClientTest-VS2015-X86} ../build-VS2015/TestopiaClient.lib |> $(LINK_VS2015) $(LFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) /PDB:"..\build-VS2015\TestopiaClientTest.pdb" /IMPLIB:"..\build-VS2015\TestopiaClientTest.lib" /OUT:"..\build-VS2015\TestopiaClientTest.exe" %f ..\build-VS2015\TestopiaClient.lib |> ../build-VS2015/TestopiaClientTest.exe ../build-VS2015/TestopiaClientTest.ilk

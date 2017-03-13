@@ -47,3 +47,11 @@ CFLAGS_X86 =
 !cpp_x86 = |> $(PREFIX_X86)g++ -O0 -g3 -Wall -c %f -fmessage-length=0 $(CFLAGS_X86) -o %o |>
 !ar_x86 = |> $(PREFIX_X86)ar -r %o %f |>
 !link_x86 = |> $(PREFIX_X86)g++ $(LDFLAGS_X86) -o %o %f -lpthread |>
+
+# *** VS2015 ***
+CL_VS2015 = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe"
+LIB_VS2015 = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\lib.exe"
+LINK_VS2015 = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe"
+
+CFLAGS_VS2015 = /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\shared" /I"C:\Program Files (x86)\Windows Kits\8.1\Include\winrt" /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Gd /TP /analyze- /errorReport:prompt 
+
