@@ -78,7 +78,7 @@ int TestopiaRpcClient::ProductGetIdByName(const ulxr::Char * name) {
 
 	resp = Call(ULXR_PCHAR("TestopiaProduct.get"), xmlRpcCallParam);
 #if 0
-	ULXR_COUT<< resp.getXml() << std::endl;
+	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>allows_unconfirmed</name><value><i4>1</i4></value></member><member><name>classification_id</name><value><i4>1</i4></value></member><member><name>defaultmilestone</name><value><string>---</string></value></member><member><name>description</name><value><string>This is a test product. This ought to be blown away and replaced with real stuff in a finished installation of bugzilla.</string></value></member><member><name>id</name><value><i4>1</i4></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>name</name><value><string>TestProduct</string></value></member></struct></value></param></params></methodResponse>
 #endif
 
@@ -101,7 +101,7 @@ int TestopiaRpcClient::EnvironmentGetIdByName(const ulxr::Char * name) {
 
 	resp = Call(ULXR_PCHAR("Environment.list"), xmlRpcCallParam);
 #if 0
-	ULXR_COUT<< resp.getXml() << std::endl;
+	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>name</name><value><string>Linux_x86</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></data></array></value></param></params></methodResponse>
 #endif
 	Array respArray = resp.getResult();
@@ -135,16 +135,16 @@ int TestopiaRpcClient::BuildCreate(const ulxr::Char * name, int productId,
 
 	resp = Call(ULXR_PCHAR("Build.create"), xmlRpcCallParam);
 #if 0
-	ULXR_COUT<< resp.getXml() << std::endl;
+	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>2</i4></value></member><member><name>description</name><value><string>TEST(TestopiaRpcClient, TestBuildCreate)</string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.02</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
 #endif
 
 	Struct respStruct = resp.getResult();
 	Integer intBuildId = respStruct.getMember("build_id");
 	buildId = intBuildId.getInteger();
-
-	std::cout << "build id: " << buildId << std::endl;
-
+#ifdef DEBUG_PRINTF
+    std::cout << "build id: " << buildId << std::endl;
+#endif
 	return buildId;
 }
 
@@ -160,27 +160,28 @@ int TestopiaRpcClient::BuildGetIdByProductNameAndBuildName(
 
 	resp = Call(ULXR_PCHAR("TestopiaProduct.get_builds"), xmlRpcCallParam);
 #if 0
-	ULXR_COUT<< resp.getXml() << std::endl;
-	// <?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>description</name><value><string></string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.01</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></data></array></value></param></params></methodResponse>
+	ULXR_COUT << resp.getXml() << std::endl;
+	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>description</name><value><string></string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.01</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></data></array></value></param></params></methodResponse>
 #endif
 
-#if 1
 	Array respArray = resp.getResult();
 	for (unsigned i = 0; i < respArray.size(); i++) {
 		Struct respStruct = respArray.getItem(i);
 		RpcString respName = respStruct.getMember(ULXR_PCHAR("name"));
 		if (0 == respName.getString().compare(buildName)) {
 			Integer intBuildId = respStruct.getMember(ULXR_PCHAR("build_id"));
+#ifdef DEBUG_PRINTF
 			std::cout << "name: " << respName.getString() << ", build id: "
 					<< intBuildId.getInteger() << std::endl;
+#endif
 
 			buildId = intBuildId.getInteger();
 			break;
 		}
 	}
+#ifdef DEBUG_PRINTF
+    std::cout << "build id: " << buildId << std::endl;
 #endif
-	std::cout << "build id: " << buildId << std::endl;
-
 	return buildId;
 }
 
@@ -208,25 +209,29 @@ int TestopiaRpcClient::TestCaseGetIdByPlanIdAndSummary(int testPlanId,
 		RpcString respSummary = respStruct.getMember("summary");
 		if (0 == respSummary.getString().compare(summary)) {
 			Integer intTestCaseId = respStruct.getMember("case_id");
-			std::cout << "summary: " << respSummary.getString()
+#ifdef DEBUG_PRINTF
+            std::cout << "summary: " << respSummary.getString()
 					<< ", test case id: " << intTestCaseId.getInteger()
 					<< std::endl;
-
+#endif
 			testCaseId = intTestCaseId.getInteger();
 			break;
 		}
 
 	}
-	std::cout << "test case id: " << testCaseId << std::endl;
-
+#ifdef DEBUG_PRINTF
+    std::cout << "test case id: " << testCaseId << std::endl;
+#endif
 	return testCaseId;
 }
 
 int TestopiaRpcClient::TestCaseCreateByPlanIdAndSummary(int testPlanId,
 		const ulxr::Char * summary, const ulxr::Char * status,
 		const ulxr::Char * category, const ulxr::Char * priority) {
-	std::cout << "TestCaseCreateByPlanIdAndSummary: plan " << testPlanId
+#ifdef DEBUG_PRINTF
+    std::cout << "TestCaseCreateByPlanIdAndSummary: plan " << testPlanId
 			<< ", summary " << summary << std::endl;
+#endif
 	Struct xmlRpcCallParam;
 	ulxr::MethodResponse resp;
 	int testCaseId = 0;
@@ -251,16 +256,17 @@ int TestopiaRpcClient::TestCaseCreateByPlanIdAndSummary(int testPlanId,
 
 	resp = Call(ULXR_PCHAR("TestCase.create"), xmlRpcCallParam);
 #if 0
-	ULXR_COUT<< resp.getXml() << std::endl;
+	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>author_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>5</i4></value></member><member><name>case_status_id</name><value><i4>2</i4></value></member><member><name>category_id</name><value><i4>1</i4></value></member><member><name>creation_date</name><value><string>2015-08-05 12:13:00</string></value></member><member><name>isautomated</name><value><i4>0</i4></value></member><member><name>priority_id</name><value><i4>4</i4></value></member><member><name>summary</name><value><string>ConnectionStateMachineTestGroup, TestDataRequested</string></value></member><member><name>version</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
 #endif
 
 	Struct respStruct = resp.getResult();
 	Integer intTestCaseId = respStruct.getMember("case_id");
 	testCaseId = intTestCaseId.getInteger();
-	std::cout << "test case id: " << testCaseId << std::endl;
-
-	return testCaseId;
+#ifdef DEBUG_PRINTF
+    std::cout << "test case id: " << testCaseId << std::endl;
+#endif
+    return testCaseId;
 }
 
 int TestopiaRpcClient::TestRunCreate(int plan_id,
@@ -270,8 +276,9 @@ int TestopiaRpcClient::TestRunCreate(int plan_id,
 		int & buildId, int & managerId) {
 	int run_id = 0;
 	try {
-		std::cout << "TestRunCreate: " << summary << std::endl;
-
+#ifdef DEBUG_PRINTF
+        std::cout << "TestRunCreate: " << summary << std::endl;
+#endif
 		Struct xmlRpcCallParam;
 		xmlRpcCallParam.addMember(ULXR_PCHAR("plan_id"), Integer(plan_id));
 
@@ -298,10 +305,9 @@ int TestopiaRpcClient::TestRunCreate(int plan_id,
 		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestRun.create"),
 				xmlRpcCallParam);
 #if 0
-		ULXR_COUT<< resp.getXml() << std::endl;
+		ULXR_COUT << resp.getXml() << std::endl;
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
-
 		Struct respStruct = resp.getResult();
 		Integer intRunId = respStruct.getMember("run_id");
 		Integer intEnvId = respStruct.getMember("environment_id");
@@ -314,22 +320,24 @@ int TestopiaRpcClient::TestRunCreate(int plan_id,
 	}
 
 	catch (ulxr::Exception &ex) {
-		ULXR_COUT<< ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why())
-		<< std::endl;
+		ULXR_COUT << ULXR_PCHAR("Error occured: ") << ULXR_GET_STRING(ex.why()) << std::endl;
 		return 1;
 	}
 	catch (...) {
 		ULXR_COUT << ULXR_PCHAR("unknown Error occured.\n");
 		return 1;
 	}
-
-	ULXR_COUT<< ULXR_PCHAR("TestRunCreate done. run_id ") << run_id << std::endl;
+#ifdef DEBUG_PRINTF
+	ULXR_COUT << ULXR_PCHAR("TestRunCreate done. run_id ") << run_id << std::endl;
+#endif
 	return run_id;
 }
 
 void TestopiaRpcClient::TestRunAddCase(int testCaseId, int runId) {
-	std::cout << "TestRunAddCase: case " << testCaseId << ", run " << runId
+#ifdef DEBUG_PRINTF
+    std::cout << "TestRunAddCase: case " << testCaseId << ", run " << runId
 			<< std::endl;
+#endif
 	Array arrCaseIds;
 	Array arrRunIds;
 	arrCaseIds.addItem(Integer(testCaseId));
@@ -352,7 +360,9 @@ void TestopiaRpcClient::TestRunStatusUpdate(int run_id, int status)
 int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		int testPlanId, int testRunId, int buildId, int envId, int testCaseId) {
 
-	std::cout << "Searching summary: " << summary << std::endl;
+#ifdef DEBUG_PRINTF
+    std::cout << "Searching summary: " << summary << std::endl;
+#endif
 	if (0 == testCaseId)
 		testCaseId = TestCaseGetIdByPlanIdAndSummary(testPlanId, summary);
 
@@ -374,7 +384,7 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.get"),
 				xmlRpcCallParam);
 #if 0
-		ULXR_COUT<< "TestCaseRun.get" << std::endl << resp.getXml() << std::endl;
+		ULXR_COUT << "TestCaseRun.get" << std::endl << resp.getXml() << std::endl;
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>assignee</name><value><i4>1</i4></value></member><member><name>build_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>3</i4></value></member><member><name>case_run_id</name><value><i4>28</i4></value></member><member><name>case_run_status_id</name><value><i4>1</i4></value></member><member><name>case_text_version</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>iscurrent</name><value><i4>1</i4></value></member><member><name>priority_id</name><value><i4>3</i4></value></member><member><name>run_id</name><value><i4>14</i4></value></member></struct></value></param></params></methodResponse>
 #endif
 
@@ -394,7 +404,9 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		xmlRpcCallParam.addMember(ULXR_PCHAR("env_id"), Integer(envId));
 		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.create"),
 				xmlRpcCallParam);
-		ULXR_COUT<< "TestCaseRun.create" << std::endl << resp.getXml() << std::endl;
+#ifdef DEBUG_PRINTF
+        ULXR_COUT << "TestCaseRun.create" << std::endl << resp.getXml() << std::endl;
+#endif
 #if 0
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
@@ -409,11 +421,12 @@ int TestopiaRpcClient::TestCaseRunUpdate(const ulxr::Char * summary, int status,
 		ulxr::MethodResponse resp = Call(ULXR_PCHAR("TestCaseRun.update"),
 				xmlRpcCallParam);
 #if 0
-		ULXR_COUT<< "TestCaseRun.update" << std::endl << resp.getXml() << std::endl;
+		ULXR_COUT << "TestCaseRun.update" << std::endl << resp.getXml() << std::endl;
 		<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>manager_id</name><value><i4>1</i4></value></member><member><name>plan_id</name><value><i4>1</i4></value></member><member><name>plan_text_version</name><value><i4>1</i4></value></member><member><name>product_version</name><value><string>unspecified</string></value></member><member><name>run_id</name><value><i4>3</i4></value></member><member><name>start_date</name><value><string>2015-08-05 07:34:37</string></value></member><member><name>summary</name><value><string>API TEST RUN</string></value></member></struct></value></param></params></methodResponse>
 #endif
 	}
-
-	ULXR_COUT<< ULXR_PCHAR("TestCaseRunUpdate done. case_id " << testCaseId << ", case_run_id " << testCaseRunId << ", status " << status << std::endl);
+#ifdef DEBUG_PRINTF
+    ULXR_COUT << ULXR_PCHAR("TestCaseRunUpdate done. case_id " << testCaseId << ", case_run_id " << testCaseRunId << ", status " << status << std::endl);
+#endif
 	return testCaseId;
 }
