@@ -119,7 +119,9 @@ TestopiaClientCppUTestPlugin::TestopiaClientCppUTestPlugin(const char* user, con
 	ulxr::CppString strHost = ULXR_PCHAR(host);
 	rpcClient = new TestopiaRpcClient(strUser, strPassword, strHost, port,
 			to_sec);
-	rpcClientWorkerError = false;
+#if TESTOPIA_CLIENT_THREADING
+    rpcClientWorkerError = false;
+#endif
 }
 
 TestopiaClientCppUTestPlugin::~TestopiaClientCppUTestPlugin() {
@@ -249,7 +251,9 @@ int TestopiaClientCppUTestPlugin::runRunAllTests(int ac, char** av) {
 	catch (ConnectionException& e)
 	{
 		std::cout << e.what() << " " << e.why();
-		rpcClientWorkerError = true;
+#if TESTOPIA_CLIENT_THREADING
+        rpcClientWorkerError = true;
+#endif
 	}
 
 	return failCount;
