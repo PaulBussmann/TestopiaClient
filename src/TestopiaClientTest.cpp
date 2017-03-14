@@ -23,7 +23,7 @@ TEST(TestopiaRpcClient, TestTestCaseGetIdByPlanIdAndSummary)
 	try {
 		testCaseId = rpcClient.TestCaseGetIdByPlanIdAndSummary(1, "TestGroup, Test");
 	}
-	catch(...){}
+	catch(...) { FAIL("Unhandled exception!"); }
 	CHECK_EQUAL(1, testCaseId);
 }
 
@@ -39,7 +39,7 @@ TEST(TestopiaRpcClient, TestEnvironmentGetIdByName)
 	try {
 		envId = rpcClient.EnvironmentGetIdByName("Windows");
 	}
-	catch(...){}
+	catch(...) { FAIL("Unhandled exception!"); }
 	CHECK_EQUAL(1, envId);
 }
 
@@ -57,7 +57,7 @@ TEST(TestopiaRpcClient, TestBuildCreate)
 	try {
 		buildId = rpcClient.BuildCreate("V0.0.1.03", 1, 0 /* isActive TODO: semantic? */, "TEST(TestopiaRpcClient, TestBuildCreate)");
 	}
-	catch(...){}
+	catch(...) { FAIL("Unhandled exception!"); }
 	CHECK_EQUAL(3, buildId);
 }
 #endif
@@ -74,7 +74,7 @@ TEST(TestopiaRpcClient, TestGetBuildIdByProductNameAndBuildName)
 	try {
 		buildId = rpcClient.BuildGetIdByProductNameAndBuildName("TestopiaClient", "V0.9");
 	}
-	catch(...){}
+	catch(...) { FAIL("Unhandled exception!"); }
 	CHECK_EQUAL(1, buildId);
 }
 
@@ -90,7 +90,7 @@ TEST(TestopiaRpcClient, TestProductGetByName)
 	try {
 		productId = rpcClient.ProductGetIdByName("TestopiaClient");
 	}
-	catch(...) {}
+    catch (...) { FAIL("Unhandled exception!"); }
 	CHECK_EQUAL(C_testopiaClientProductId, productId);
 }
 
@@ -138,8 +138,6 @@ int main(int nArgc, char* ppArgv[])
 
 	TestRegistry::getCurrentRegistry()->installPlugin(&testopiaClient);
 	return testopiaClient.runRunAllTests(nArgc, ppArgv);
+#endif
 }
-#endif
-#endif
-
-
+#endif /* TESTOPIA_CLIENT_TEST */

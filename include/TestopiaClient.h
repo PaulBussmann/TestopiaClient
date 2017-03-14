@@ -32,7 +32,7 @@
 #include "CppUTest/TestPlugin.h"
 
 #include <assert.h>
-#define TESTOPIA_CLIENT_THREADING 1
+#define TESTOPIA_CLIENT_THREADING 0
 #ifdef __linux__
 #else
 #endif
@@ -154,7 +154,7 @@ public:
 #if TESTOPIA_CLIENT_THREADING
 		QueueTestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), TestopiaClientCppUTestPlugin::TestCaseStatus_RUNNING);
 #else
-		TestCaseRunUpdate(TestopiaClientCppUTestPlugin::TestCaseStatus_RUNNING);
+		TestCaseRunUpdate(TestGroupAndNameString(test, groupAndName), TestopiaClientCppUTestPlugin::TestCaseStatus_RUNNING);
 #endif
     }
 

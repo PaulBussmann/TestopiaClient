@@ -24,6 +24,14 @@
 #ifndef _THREAD_
 #define _THREAD_
 
+#if defined(__GNUC__)
+#include <pthread.h>
+typedef void* (*LPTHREAD_START_ROUTINE)(void* pvParams);
+#define LPTHREAD_START_ROUTINE LPTHREAD_START_ROUTINE
+typedef void* LPVOID;
+typedef pthread_t HANDLE;
+#endif
+
 namespace std
 {
 /// trivial implementation of thread class for pre-C++ 2011 compilers
@@ -32,14 +40,20 @@ class thread
 public:
     thread(LPTHREAD_START_ROUTINE routine, LPVOID context)
     {
+#if defined(__GNUC__)
+        pthread_create(&threads[0], NULL, routine, context);
+#else
         DWORD threadId = 0;
-        HANDLE thread = CreateThread(NULL, 0x8000, routine, context, DEBUG_PROCESS, &threadId);
-
-        threads[0] = thread;
+        threads[0] = CreateThread(NULL, 0x8000, routine, context, DEBUG_PROCESS, &threadId);
+#endif
     }
     void join()
     {
+#if defined(__GNUC__)
+        pthread_join(threads[0], NULL);
+#else
         WaitForMultipleObjects(1, threads, TRUE, INFINITE);
+#endif
     }
     HANDLE threads[1];
 };

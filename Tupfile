@@ -1,0 +1,72 @@
+include_rules
+
+srcs-TestopiaClient = src/TestopiaRpcClient.cpp src/TestopiaClient.cpp
+cflags-TestopiaClient = -IC:/CppUTest/include -IC:/CppUTest/include/Platforms/Gcc -Iinclude -IC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux
+
+srcs-TestopiaClientTest = src/TestopiaClientTest.cpp
+# srcs-TestopiaClientTest-VS2015 = $(srcs-TestopiaClientTest) C:/Users/Paul/src/expat/src/xmlparse.c
+
+lflags-TestopiaClientTest = -ltestopiaclient -lulxmlrpcpp -lcpputest -lpthread -lexpat
+
+# *** ARM ***
+lflags-TestopiaClientTest-arm = -L../build-Linux/$(ARCH_ARM)/Debug -LC:/CppUTest/lib/Linux/$(ARCH_ARM) -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/$(ARCH_ARM)/Debug -LC:/Users/Paul/src/expat/src/build-Linux/$(ARCH_ARM)/Debug $(lflags-TestopiaClientTest)
+
+: foreach $(srcs-TestopiaClient) |> !cpp_arm $(cflags-TestopiaClient) -std=c++11 |> ../build-Linux/$(ARCH_ARM)/Debug/%B.o {objs-TestopiaClient-arm}
+: {objs-TestopiaClient-arm} |> !ar_arm |> ../build-Linux/$(ARCH_ARM)/Debug/libTestopiaClient.a
+
+: foreach $(srcs-TestopiaClientTest) |> !cpp_arm $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST -std=c++11 |> ../build-Linux/$(ARCH_ARM)/Debug/%B.o {objs-TestopiaClientTest-arm}
+: ../build-Linux/$(ARCH_ARM)/Debug/libTestopiaClient.a {objs-TestopiaClientTest-arm} |> $(PREFIX_arm)g++ -std=c++11 $(LDFLAGS_arm) -o ../build-Linux/$(ARCH_ARM)/Debug/TestopiaClientTest ../build-Linux/$(ARCH_ARM)/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-arm) |> ../build-Linux/$(ARCH_ARM)/Debug/TestopiaClientTest 
+
+# *** ARMHF ***
+lflags-TestopiaClientTest-armhf = -L../build-Linux/$(ARCH_ARMHF)/Debug -LC:/CppUTest/lib/Linux/$(ARCH_ARMHF) -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/$(ARCH_ARMHF)/Debug -LC:/Users/Paul/src/expat/src/build-Linux/$(ARCH_ARMHF)/Debug $(lflags-TestopiaClientTest)
+
+: foreach $(srcs-TestopiaClient) |> !cpp_armhf $(cflags-TestopiaClient) -std=c++11 |> ../build-Linux/$(ARCH_ARMHF)/Debug/%B.o {objs-TestopiaClient-armhf}
+: {objs-TestopiaClient-armhf} |> !ar_armhf |> ../build-Linux/$(ARCH_ARMHF)/Debug/libTestopiaClient.a
+
+: foreach $(srcs-TestopiaClientTest) |> !cpp_armhf $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST -std=c++11 |> ../build-Linux/$(ARCH_ARMHF)/Debug/%B.o {objs-TestopiaClientTest-armhf}
+: ../build-Linux/$(ARCH_ARMHF)/Debug/libTestopiaClient.a {objs-TestopiaClientTest-armhf} |> $(PREFIX_armhf)g++ -std=c++11 $(LDFLAGS_armhf) -o ../build-Linux/$(ARCH_ARMHF)/Debug/TestopiaClientTest ../build-Linux/$(ARCH_ARMHF)/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-armhf) |> ../build-Linux/$(ARCH_ARMHF)/Debug/TestopiaClientTest 
+
+# *** PPC ***
+lflags-TestopiaClientTest-ppc = -L../build-Linux/PPC/Debug -LC:/CppUTest/lib/Linux/ppc -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/PPC/Debug -LC:/Users/Paul/src/expat/src/build-Linux/PPC/Debug $(lflags-TestopiaClientTest)
+
+: foreach $(srcs-TestopiaClient) |> !cpp_ppc $(cflags-TestopiaClient) -Isrc |> ../build-Linux/PPC/Debug/%B.o {objs-TestopiaClient-ppc}
+: {objs-TestopiaClient-ppc} |> !ar_ppc |> ../build-Linux/PPC/Debug/libTestopiaClient.a
+
+: foreach $(srcs-TestopiaClientTest) |> !cpp_ppc $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST |> ../build-Linux/PPC/Debug/%B.o {objs-TestopiaClientTest-ppc}
+: ../build-Linux/PPC/Debug/libTestopiaClient.a {objs-TestopiaClientTest-ppc} |> $(PREFIX_ppc)g++ $(LDFLAGS_ppc) -o ../build-Linux/PPC/Debug/TestopiaClientTest ../build-Linux/PPC/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-ppc) |> ../build-Linux/PPC/Debug/TestopiaClientTest 
+
+# *** x64 ***
+lflags-TestopiaClientTest-x64 = -L../build-Linux/x64/Debug -LC:/CppUTest/lib/Linux/x64 -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/x64/Debug -LC:/Users/Paul/src/expat/src/build-Linux/x64/Debug $(lflags-TestopiaClientTest)
+
+: foreach $(srcs-TestopiaClient) |> !cpp_x64 $(cflags-TestopiaClient) -std=c++11 |> ../build-Linux/x64/Debug/%B.o {objs-TestopiaClient-x64}
+: {objs-TestopiaClient-x64} |> !ar_x64 |> ../build-Linux/x64/Debug/libTestopiaClient.a
+
+: foreach $(srcs-TestopiaClientTest) |> !cpp_x64 $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST -std=c++11 |> ../build-Linux/x64/Debug/%B.o {objs-TestopiaClientTest-x64}
+: ../build-Linux/x64/Debug/libTestopiaClient.a {objs-TestopiaClientTest-x64} |> $(PREFIX_x64)g++ -std=c++11 $(LDFLAGS_x64) -o ../build-Linux/x64/Debug/TestopiaClientTest ../build-Linux/x64/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-x64) |> ../build-Linux/x64/Debug/TestopiaClientTest 
+
+# *** x86 ***
+lflags-TestopiaClientTest-x86 = -L../build-Linux/x86/Debug -LC:/CppUTest/lib/Linux/x86 -LC:/Users/Paul/src/ulxmlrpcpp-1.7.5-Linux/ulxmlrpcpp/build-Linux/x86/Debug -LC:/Users/Paul/src/expat/src/build-Linux/x86/Debug $(lflags-TestopiaClientTest)
+
+: foreach $(srcs-TestopiaClient) |> !cpp_x86 $(cflags-TestopiaClient) -std=c++11 |> ../build-Linux/x86/Debug/%B.o {objs-TestopiaClient-x86}
+: {objs-TestopiaClient-x86} |> !ar_x86 |> ../build-Linux/x86/Debug/libTestopiaClient.a
+
+: foreach $(srcs-TestopiaClientTest) |> !cpp_x86 $(cflags-TestopiaClient) -DTESTOPIA_CLIENT_TEST -std=c++11 |> ../build-Linux/x86/Debug/%B.o {objs-TestopiaClientTest-x86}
+: ../build-Linux/x86/Debug/libTestopiaClient.a {objs-TestopiaClientTest-x86} |> $(PREFIX_X86)g++ -std=c++11 $(LDFLAGS_X86) -o ../build-Linux/x86/Debug/TestopiaClientTest ../build-Linux/x86/Debug/TestopiaClientTest.o $(lflags-TestopiaClientTest-x86) |> ../build-Linux/x86/Debug/TestopiaClientTest 
+
+# *** VS2015 ***
+# TODO: ulxmlrpcpp, TestopiaClient non-DLL
+CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG =  /D TESTOPIA_CLIENT_TEST /D XML_STATIC /D ULXR_STATIC_LIB /D sleep=Sleep /Iinclude /I"C:\Users\Paul\Documents\Visual Studio 2015\Projects\ulxmlrpcpp-1.7.5" /IC:\CppUTest\include /IC:\CppUTest\include\Platforms\VisualCpp
+
+CFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG = $(CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG)
+
+LFLAGS_VS2015_DEBUG = /LIBPATH:"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86" /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib" /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86" ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /nologo
+
+LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG = $(LFLAGS_VS2015_DEBUG) "/LIBPATH:visual studio 2015\Debug" /LIBPATH:C:\CppUTest\lib\vs2015 libexpat.lib ulxmlrpcpp.lib CppUTestd.lib
+
+LFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG = $(LFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG) /LIBPATH:..\build-VS2015 TestopiaClient.lib
+
+: foreach $(srcs-TestopiaClient) |> $(CL_VS2015) /c %f $(CFLAGS_VS2015) $(CFLAGS_TESTOPIA_CLIENT_VS2015_DEBUG) /Fo..\build-VS2015\%B.obj |> ../build-VS2015/%B.obj {OBJS-TestopiaClient-VS2015-X86}
+: {OBJS-TestopiaClient-VS2015-X86} |> $(LIB_VS2015) "/OUT:..\build-VS2015\TestopiaClient.lib" %f |> ../build-VS2015/TestopiaClient.lib 
+
+: foreach $(srcs-TestopiaClientTest) |> $(CL_VS2015) /c %f $(CFLAGS_VS2015) $(CFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) /Fo..\build-VS2015\%B.obj |> ../build-VS2015/%B.obj {OBJS-TestopiaClientTest-VS2015-X86}
+: {OBJS-TestopiaClientTest-VS2015-X86} ../build-VS2015/TestopiaClient.lib |> $(LINK_VS2015) $(LFLAGS_TESTOPIA_CLIENT_TEST_VS2015_DEBUG) /PDB:"..\build-VS2015\TestopiaClientTest.pdb" /IMPLIB:"..\build-VS2015\TestopiaClientTest.lib" /OUT:"..\build-VS2015\TestopiaClientTest.exe" %f ..\build-VS2015\TestopiaClient.lib |> ../build-VS2015/TestopiaClientTest.exe ../build-VS2015/TestopiaClientTest.ilk
