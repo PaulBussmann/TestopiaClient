@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClient", "TestopiaClient\TestopiaClient.vcxproj", "{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestopiaClientTest", "TestopiaClientTest\TestopiaClientTest.vcxproj", "{76529C0D-3D6A-4017-9AF2-77FFA34F1CE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE} = {7A50B18D-DD6B-4601-9B1F-DDB6EB8520DE}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllTests_VS2015", "..\..\..\..\..\..\CppUTest\examples\AllTests\AllTests_VS2015.vcxproj", "{95A5F8D0-12C0-4AC1-B46B-292DD3886108}"
 EndProject
