@@ -16,11 +16,11 @@ static std::string strEnvironment = "---";
 static std::string strRunSummary = "---"; 
 static std::string strRunManagerName = "admin@localhost.localdomain";
 
-static int runManagerId;
-static int productId;
-static int buildId;
+static int runManagerId = 0;
+static int productId = 0;
+static int buildId = 0;
 static int envId = 0;
-static int planId = 1;
+static int planId = 0;
 static int runId = 0;
 
 // Testopia connection parameters
@@ -35,19 +35,24 @@ static TestopiaRpcClient* rpcClient = NULL;
 
 void TestRunInit()
 {
-	productId = rpcClient->ProductGetIdByName(strProduct.c_str());
-    envId = rpcClient->EnvironmentGetIdByName(strEnvironment.c_str());
-    if (0 == envId)
-    {
-        envId = rpcClient->EnvironmentCreate(productId, strEnvironment.c_str(), 1);
-    }
+	if (0 == productId)
+		productId = rpcClient->ProductGetIdByName(strProduct.c_str());
 
-    runManagerId = rpcClient->TestopiaUserGetIdByLogin(strRunManagerName.c_str());
+	if (0 == envId)
+		envId = rpcClient->EnvironmentGetIdByName(strEnvironment.c_str());
+
+	if (0 == envId)
+        envId = rpcClient->EnvironmentCreate(productId, strEnvironment.c_str(), 1);
+
+    if (0 == runManagerId)
+		runManagerId = rpcClient->TestopiaUserGetIdByLogin(strRunManagerName.c_str());
 
 	// root@testopia:/var/www/html/Bugzilla/Version.pm
 	// How to create version via HTTP?
 
-	buildId = rpcClient->BuildGetIdByProductNameAndBuildName(strProduct.c_str(), strBuild.c_str());
+    if (0 == buildId)
+		buildId = rpcClient->BuildGetIdByProductNameAndBuildName(strProduct.c_str(), strBuild.c_str());
+
 	if (0 == buildId)
 		rpcClient->BuildCreate(strBuild.c_str(), productId, 0, strBuildDescription.c_str());
 
@@ -72,7 +77,10 @@ int TestCaseRunInit(const char* name)
 	if (0 == testCaseId)
 		testCaseId = rpcClient->TestCaseGetIdByPlanIdAndSummary(0, name);
 
-	if (0 != testCaseId)
+	if (0 == testCaseId)
+		testCaseId = rpcClient->TestCaseCreateByPlanIdAndSummary(planId, name);
+
+    if ((0 != runId) && (0 != testCaseId))
 		rpcClient->TestRunAddCase(testCaseId, runId);
 
     return testCaseId;
@@ -174,6 +182,7 @@ int main(int argc, char* argv[])
     // Read CppUTest output from cmd line
     while (!finished)
     {
+		line = "";
         std::getline(std::cin, line);  // read a line from std::cin into line
 
         // Product
@@ -236,7 +245,7 @@ int main(int argc, char* argv[])
         }
 
         // failure in test
-        if (contains(line, "): error: Failure in TEST("))
+        if (contains(line, ": error: Failure in TEST("))
         {
              failure = true;
              TestCaseRunUpdate(testname.c_str(), testCaseId, TestCaseStatus_FAILED);
