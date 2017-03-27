@@ -1,7 +1,9 @@
 # Setup Testopia Server
 
 ## Docs
-http://bugzilla.readthedocs.org/en/latest/installing/quick-start.html
+- http://bugzilla.readthedocs.org/en/latest/installing/quick-start.html
+- https://github.com/bugzilla/extensions-Testopia
+- https://wiki.mozilla.org/Testopia:README
 
 ## Install on Linux
 Check if really Ubuntu 14.04 LTS
@@ -77,9 +79,10 @@ cd /var/www
 mv html html.bak
 git clone --branch release-4.4-stable https://github.com/bugzilla/bugzilla
 git clone https://github.com/bugzilla/extensions-Testopia.git
+git clone https://github.com/jpoehls/extjs-3.2.1.git
 cp -r bugzilla html
 cp -r extensions-Testopia/* html/
-ln -s /var/www/extensions-Testopia/extensions/Testopia html/extensions/Testopia
+cp -r extjs-3.2.1 html/extensions/Testopia/extjs
 chown -R www-data html
 chgrp -R www-data html
 ```
