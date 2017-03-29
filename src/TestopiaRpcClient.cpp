@@ -109,6 +109,10 @@ int TestopiaRpcClient::ProductGetIdByName(const ulxr::Char * name) {
 	xmlRpcCallParam.addMember(ULXR_PCHAR("name"), nameString);
 
 	resp = Call(ULXR_PCHAR("TestopiaProduct.get"), xmlRpcCallParam);
+    if (!resp.isOK()) {
+        ULXR_COUT << "TestopiaProduct.get" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
 #if 0
 	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>allows_unconfirmed</name><value><i4>1</i4></value></member><member><name>classification_id</name><value><i4>1</i4></value></member><member><name>defaultmilestone</name><value><string>---</string></value></member><member><name>description</name><value><string>This is a test product. This ought to be blown away and replaced with real stuff in a finished installation of bugzilla.</string></value></member><member><name>id</name><value><i4>1</i4></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>name</name><value><string>TestProduct</string></value></member></struct></value></param></params></methodResponse>
@@ -136,7 +140,11 @@ int TestopiaRpcClient::EnvironmentCreate(int productId, const ulxr::Char * name,
 	xmlRpcCallParam.addMember(ULXR_PCHAR("isactive"), Integer(isActive));
 
 	resp = Call(ULXR_PCHAR("Environment.create"), xmlRpcCallParam);
-	ULXR_COUT<< resp.getXml() << std::endl;
+    if (!resp.isOK()) {
+        ULXR_COUT << "Environment.create" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
+    ULXR_COUT<< resp.getXml() << std::endl;
 #if 0
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>2</i4></value></member><member><name>description</name><value><string>TEST(TestopiaRpcClient, TestBuildCreate)</string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.02</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
 #endif
@@ -161,6 +169,10 @@ int TestopiaRpcClient::EnvironmentGetIdByName(const ulxr::Char * name) {
 	xmlRpcCallParam.addMember(ULXR_PCHAR("name"), nameString);
 
 	resp = Call(ULXR_PCHAR("Environment.list"), xmlRpcCallParam);
+    if (!resp.isOK()) {
+        ULXR_COUT << "Environment.list" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
 #if 0
 	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>environment_id</name><value><i4>1</i4></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>name</name><value><string>Linux_x86</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></data></array></value></param></params></methodResponse>
@@ -195,6 +207,11 @@ int TestopiaRpcClient::BuildCreate(const ulxr::Char * name, int productId,
 	xmlRpcCallParam.addMember(ULXR_PCHAR("description"), stringDescription);
 
 	resp = Call(ULXR_PCHAR("Build.create"), xmlRpcCallParam);
+    if (!resp.isOK()) {
+        ULXR_COUT << "Build.create" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
+
 #if 0
 	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>build_id</name><value><i4>2</i4></value></member><member><name>description</name><value><string>TEST(TestopiaRpcClient, TestBuildCreate)</string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.02</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
@@ -220,6 +237,10 @@ int TestopiaRpcClient::BuildGetIdByProductNameAndBuildName(
 	xmlRpcCallParam.addMember(ULXR_PCHAR("name"), productNameString);
 
 	resp = Call(ULXR_PCHAR("TestopiaProduct.get_builds"), xmlRpcCallParam);
+    if (!resp.isOK()) {
+        ULXR_COUT << "TestopiaProduct.get_builds" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
 #if 0
 	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>build_id</name><value><i4>1</i4></value></member><member><name>description</name><value><string></string></value></member><member><name>isactive</name><value><i4>1</i4></value></member><member><name>milestone</name><value><string>---</string></value></member><member><name>name</name><value><string>V0.0.1.01</string></value></member><member><name>product_id</name><value><i4>1</i4></value></member></struct></value></data></array></value></param></params></methodResponse>
@@ -266,6 +287,11 @@ int TestopiaRpcClient::TestCaseGetIdByPlanIdAndSummary(int testPlanId,
 		xmlRpcCallParam.addMember(ULXR_PCHAR("id"), Integer(testPlanId));
 	}
     resp = Call(ULXR_PCHAR("TestCase.list"), xmlRpcCallParam);
+
+    if (!resp.isOK()) {
+        ULXR_COUT << "TestCase.list" << std::endl << resp.getXml() << std::endl;
+        return 0;
+}
 
 #if 0
     ULXR_COUT<< resp.getXml() << std::endl;
@@ -325,6 +351,10 @@ int TestopiaRpcClient::TestCaseCreateByPlanIdAndSummary(int testPlanId,
 	xmlRpcCallParam.addMember(ULXR_PCHAR("plans"), arr);
 
 	resp = Call(ULXR_PCHAR("TestCase.create"), xmlRpcCallParam);
+    if (!resp.isOK()) {
+        ULXR_COUT << "TestCase.create" << std::endl << resp.getXml() << std::endl;
+        return 0;
+    }
 #if 0
 	ULXR_COUT << resp.getXml() << std::endl;
 	<?xml version="1.0" encoding="utf-8"?><methodResponse><params><param><value><struct><member><name>author_id</name><value><i4>1</i4></value></member><member><name>case_id</name><value><i4>5</i4></value></member><member><name>case_status_id</name><value><i4>2</i4></value></member><member><name>category_id</name><value><i4>1</i4></value></member><member><name>creation_date</name><value><string>2015-08-05 12:13:00</string></value></member><member><name>isautomated</name><value><i4>0</i4></value></member><member><name>priority_id</name><value><i4>4</i4></value></member><member><name>summary</name><value><string>ConnectionStateMachineTestGroup, TestDataRequested</string></value></member><member><name>version</name><value><i4>1</i4></value></member></struct></value></param></params></methodResponse>
