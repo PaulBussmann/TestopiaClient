@@ -136,8 +136,12 @@ int main(int argc, char* argv[])
     if (NULL != getenv("TESTOPIA_HOST")) strHost = ULXR_PCHAR(getenv("TESTOPIA_HOST"));
 
     // product meta data from command line
-    for (int i = 0; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
+        if (equals("-host", argv[i]))
+        {
+            strHost = ULXR_PCHAR(argv[++i]);
+        }
         if (equals("-manager", argv[i]))
         {
             strRunManagerName = argv[++i];
