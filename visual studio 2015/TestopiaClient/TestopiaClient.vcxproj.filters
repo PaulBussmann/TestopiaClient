@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\src\TestopiaClientMain.cpp" />
+    <ClCompile Include="..\..\src\TestopiaRpcClient.cpp" />
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxmlrpcpp.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_cached_resource.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_call.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse_base.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse_wb.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_connection.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_dispatcher.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_except.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_expatwrap.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_file_resource.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_htmlform_handler.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_client.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_protocol.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_server.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_log4j.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_mtrpc_server.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_mutex.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_protocol.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_requester.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_response.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse_base.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse_wb.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_signature.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_ssl_connection.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_tcpip_connection.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_value.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse_base.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse_wb.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_virtual_resource.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_wbxmlparse.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_xmlparse.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_xmlparse_base.cpp">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\expat-2.1.0\lib\xmlparse.c">
+      <Filter>expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\expat-2.1.0\lib\xmlrole.c">
+      <Filter>expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\expat-2.1.0\lib\xmltok.c">
+      <Filter>expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\expat-2.1.0\lib\xmltok_impl.c">
+      <Filter>expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\expat-2.1.0\lib\xmltok_ns.c">
+      <Filter>expat</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\ascii.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\asciitab.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\expat.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\expat_external.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\iasciitab.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\internal.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\latin1tab.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\nametab.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxmlrpcpp.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_call.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse_base.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_callparse_wb.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_connection.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_dispatcher.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_except.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_expatwrap.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_htmlform_handler.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_base.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_client.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_protocol.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_http_server.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_mtrpc_server.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_mutex.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_protocol.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_requester.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_response.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse_base.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_responseparse_wb.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_signature.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_ssl_connection.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_tcpip_connection.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_value.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse_base.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_valueparse_bw.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_xmlparse.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_xmlparse_base.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ulxmlrpcpp-1.7.5\ulxmlrpcpp\ulxr_xmlparse_wb.h">
+      <Filter>ulxmlrpcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\utf8tab.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\xmlrole.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\xmltok.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\expat-2.1.0\lib\xmltok_impl.h">
+      <Filter>expat</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="expat">
+      <UniqueIdentifier>{179ddb8d-ced7-494d-bf28-fd937bdbad40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ulxmlrpcpp">
+      <UniqueIdentifier>{958790b3-6a21-4dd2-b34d-b3d27c9616c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
