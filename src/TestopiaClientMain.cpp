@@ -13,7 +13,7 @@ static std::string strProductVersion = "";
 static std::string strBuild = "";
 static std::string strBuildDescription = "";
 static std::string strEnvironment = "---";
-static std::string strRunSummary = "---"; 
+static std::string strRunSummary = "---";
 static std::string strRunManagerName = "admin@localhost.localdomain";
 
 static int runManagerId = 0;
@@ -33,90 +33,82 @@ static unsigned to_sec = 30;
 // Testopia connection handle
 static TestopiaRpcClient* rpcClient = NULL;
 
-void TestRunInit()
-{
-	if (0 == productId)
-		productId = rpcClient->ProductGetIdByName(strProduct.c_str());
+void TestRunInit() {
+    if (0 == productId)
+        productId = rpcClient->ProductGetIdByName(strProduct.c_str());
 
-	if (0 == envId)
-		envId = rpcClient->EnvironmentGetIdByName(strEnvironment.c_str());
+    if (0 == envId)
+        envId = rpcClient->EnvironmentGetIdByName(strEnvironment.c_str());
 
-	if (0 == envId)
+    if (0 == envId)
         envId = rpcClient->EnvironmentCreate(productId, strEnvironment.c_str(), 1);
 
     if (0 == runManagerId)
-		runManagerId = rpcClient->TestopiaUserGetIdByLogin(strRunManagerName.c_str());
+        runManagerId = rpcClient->TestopiaUserGetIdByLogin(strRunManagerName.c_str());
 
-	// root@testopia:/var/www/html/Bugzilla/Version.pm
-	// How to create version via HTTP?
+    // root@testopia:/var/www/html/Bugzilla/Version.pm
+    // How to create version via HTTP?
 
     if (0 == buildId)
-		buildId = rpcClient->BuildGetIdByProductNameAndBuildName(strProduct.c_str(), strBuild.c_str());
+        buildId = rpcClient->BuildGetIdByProductNameAndBuildName(strProduct.c_str(), strBuild.c_str());
 
-	if (0 == buildId)
-		rpcClient->BuildCreate(strBuild.c_str(), productId, 0, strBuildDescription.c_str());
+    if (0 == buildId)
+        rpcClient->BuildCreate(strBuild.c_str(), productId, 0, strBuildDescription.c_str());
 
     if (0 == runId)
-	    runId = rpcClient->TestRunCreate(planId, strEnvironment.c_str(), strBuild.c_str(), strRunSummary.c_str(), strRunManagerName.c_str(), strProductVersion.c_str(), TestRunStatus_RUNNING,
-		    envId, buildId, runManagerId);
+        runId = rpcClient->TestRunCreate(planId, strEnvironment.c_str(), strBuild.c_str(), strRunSummary.c_str(), strRunManagerName.c_str(), strProductVersion.c_str(), TestRunStatus_RUNNING,
+            envId, buildId, runManagerId);
 }
-void TestRunStop()
-{
+
+void TestRunStop() {
     if (0 == runId)
         TestRunInit();
 
-	rpcClient->TestRunStatusUpdate(runId, TestRunStatus_STOPPED);
+    rpcClient->TestRunStatusUpdate(runId, TestRunStatus_STOPPED);
 }
-int TestCaseRunInit(const char* name)
-{
-	int testCaseId = rpcClient->TestCaseGetIdByPlanIdAndSummary(planId, name);
+
+int TestCaseRunInit(const char* name) {
+    int testCaseId = rpcClient->TestCaseGetIdByPlanIdAndSummary(planId, name);
 
     if (0 == runId)
         TestRunInit();
 
-	if (0 == testCaseId)
-		testCaseId = rpcClient->TestCaseGetIdByPlanIdAndSummary(0, name);
+    if (0 == testCaseId)
+        testCaseId = rpcClient->TestCaseGetIdByPlanIdAndSummary(0, name);
 
-	if (0 == testCaseId)
-		testCaseId = rpcClient->TestCaseCreateByPlanIdAndSummary(planId, name);
+    if (0 == testCaseId)
+        testCaseId = rpcClient->TestCaseCreateByPlanIdAndSummary(planId, name);
 
     if ((0 != runId) && (0 != testCaseId))
-		rpcClient->TestRunAddCase(testCaseId, runId);
+        rpcClient->TestRunAddCase(testCaseId, runId);
 
     return testCaseId;
 }
-void TestCaseRunUpdate(const char* name, int testCaseId, int status = (int)TestCaseStatus_IDLE)
-{
-	rpcClient->TestCaseRunUpdate(name, status, planId, runId, buildId, envId, testCaseId);
+
+void TestCaseRunUpdate(const char* name, int testCaseId, int status = (int)TestCaseStatus_IDLE) {
+    rpcClient->TestCaseRunUpdate(name, status, planId, runId, buildId, envId, testCaseId);
 }
 
-bool equals(std::string const &a, std::string const &b)
-{
+bool equals(std::string const &a, std::string const &b) {
     return a.compare(b) == 0;
 }
 
-bool startsWith(std::string const &fullString, std::string const &starting)
-{
+bool startsWith(std::string const &fullString, std::string const &starting) {
     return fullString.find(starting) == 0;
 }
 
-bool contains(std::string const &haystack, std::string const &needle)
-{
+bool contains(std::string const &haystack, std::string const &needle) {
     return haystack.find(needle) < haystack.length();
 }
 
-bool endsWith(std::string const &fullString, std::string const &ending) 
-{
-    if (fullString.length() >= ending.length()) 
-    {
+bool endsWith(std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length())
         return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
-    } else {
+    else
         return false;
-    }
 }
 
-void finalizeTest(const std::string & testname, int testCaseId, bool failure, long duration, const std::string & errorhint)
-{
+void finalizeTest(const std::string & testname, int testCaseId, bool failure, long duration, const std::string & errorhint) {
     std::cout << "Test " << testname << " finished " << (failure ? "not " : "") << "ok in " << duration << " ms" << std::endl;
     std::cout << errorhint;
 
@@ -129,46 +121,42 @@ void finalizeTest(const std::string & testname, int testCaseId, bool failure, lo
     // add "sub update_detailed { " in bugzilla\extensions\Testopia\lib\WebService\TestCaseRun.pm
 }
 
-int main(int argc, char* argv[])
-{
+// read from stdin, update testopia and write to stdout
+int main(int argc, char* argv[]) {
+
+    // testopia context information from environment
     if (NULL != getenv("TESTOPIA_USER")) strUser = ULXR_PCHAR(getenv("TESTOPIA_USER"));
     if (NULL != getenv("TESTOPIA_PASSWORD")) strPassword = ULXR_PCHAR(getenv("TESTOPIA_PASSWORD"));
     if (NULL != getenv("TESTOPIA_HOST")) strHost = ULXR_PCHAR(getenv("TESTOPIA_HOST"));
 
-    // product meta data from command line
-    for (int i = 1; i < argc; i++)
-    {
+    // testopia context information from command line
+    for (int i = 1; i < argc; i++) {
         if (equals("-host", argv[i]))
-        {
             strHost = ULXR_PCHAR(argv[++i]);
-        }
-        if (equals("-manager", argv[i]))
-        {
+        else if (equals("-manager", argv[i]))
             strRunManagerName = argv[++i];
-        }
-        if (equals("-product", argv[i]))
-        {
+        else if (equals("-product", argv[i]))
             strProduct = argv[++i];
-        }
-        if (equals("-version", argv[i]))
-        {
+        else if (equals("-version", argv[i]))
             strProductVersion = argv[++i];
-        }
-        if (equals("-build", argv[i]))
-        {
+        else if (equals("-build", argv[i]))
             strBuild = argv[++i];
-        }
-        if (equals("-environment", argv[i]))
-        {
+        else if (equals("-environment", argv[i]))
             strEnvironment = argv[++i];
-        }
-        if (equals("-user", argv[i]))
-        {
+        else if (equals("-user", argv[i]))
             strUser = argv[++i];
-        }
-        if (equals("-planid", argv[i]))
-        {
+        else if (equals("-planid", argv[i]))
             planId = std::stoi(argv[++i]);
+        else if ('-' == argv[i][0]) {
+            std::cerr <<
+            "Usage:" << std::endl <<
+            "-manager <manager name>" << std::endl <<
+            "-product <product name>" << std::endl <<
+            "-version <version>" << std::endl <<
+            "-build <build>" << std::endl <<
+            "-environment <environment>" << std::endl <<
+            "-user <user name>" << std::endl <<
+            "-planid <plan ID>" << std::endl;
         }
     }
 
@@ -181,61 +169,49 @@ int main(int argc, char* argv[])
     string errorhint = "";
     int testCaseId = 0;
 
-	rpcClient = new TestopiaRpcClient(strUser, strPassword, strHost, port, to_sec);
+    // connect to Testopia
+    rpcClient = new TestopiaRpcClient(strUser, strPassword, strHost, port, to_sec);
 
     // Read CppUTest output from cmd line
-    while (!finished)
-    {
-		line = "";
+    while (!finished) {
+        line = "";
         std::getline(std::cin, line);  // read a line from std::cin into line
 
-        // Product
+        // testopia context information from stdin
         if (startsWith(line, "PRODUCT("))
-        {
             strProduct = line.substr(strlen("PRODUCT("), line.find(")") - strlen("PRODUCT("));;
-        }
-        // Version
         if (startsWith(line, "VERSION("))
-        {
             strProductVersion = line.substr(strlen("VERSION("), line.find(")") - strlen("VERSION("));;
-        }
-        // Build
         if (startsWith(line, "BUILD("))
-        {
             strBuild = line.substr(strlen("BUILD("), line.find(")") - strlen("BUILD("));;
-        }
-        // Environent
         if (startsWith(line, "ENVIRONMENT("))
-        {
             strEnvironment = line.substr(strlen("ENVIRONMENT("), line.find(")") - strlen("ENVIRONMENT("));;
-        }
-        // test starting
-        if (startsWith(line, "TEST("))
-        {
-            if (testname.length() > 0)
-            {
-                finalizeTest(testname, testCaseId, failure, duration, errorhint);
-            }
 
-            // next test name
+        // test starting
+        if (startsWith(line, "TEST(")) {
+
+            // first test or next test (finalize previous)
+            if (testname.length() > 0)
+                finalizeTest(testname, testCaseId, failure, duration, errorhint);
+
+            // next test: get name and reset info
             testname = line.substr(5, line.find(")") - 5);
             failure = false;
             duration = 0;
             errorhint = "";
 
-            // create if missing
+            // set status running and create if missing
             testCaseId = TestCaseRunInit(testname.c_str());
 
             // set running
             TestCaseRunUpdate(testname.c_str(), testCaseId, TestCaseStatus_RUNNING);
         }
 
-        if (startsWith(line, "IGNORE_TEST("))
-        {
+        // ignored tests cannot be executed. set to idle.
+        if (startsWith(line, "IGNORE_TEST(")) {
+
             if (testname.length() > 0)
-            {
                 finalizeTest(testname, testCaseId, failure, duration, errorhint);
-            }
 
             // ignored test name
             testname = line.substr(12, line.find(")") - 12);
@@ -249,32 +225,27 @@ int main(int argc, char* argv[])
         }
 
         // failure in test
-        if (contains(line, ": error: Failure in TEST("))
-        {
+        if (contains(line, ": error: Failure in TEST(")) {
              failure = true;
              TestCaseRunUpdate(testname.c_str(), testCaseId, TestCaseStatus_FAILED);
         }
 
         // duration
-        if (endsWith(line, " ms"))
-        {
+        if (endsWith(line, " ms")) {
             std::regex duration_regex("(.* \\- )([0-9]+)( ms)");
             std::smatch duration_match;
- 
+
             if (std::regex_match(line, duration_match, duration_regex) && (duration_match.size() == 4))
-            {
                 duration = std::stoi(duration_match[2].str());
-            }   
+
         }
 
-        // test run finished
+        // test run finished (all cases tested)
         if (startsWith(line, "OK (") || startsWith(line, "Errors ("))
-        {
             finished = true;
-        }
 
-        if (failure && !finished)
-        {
+        // failure but not all cases tested yet
+        if (failure && !finished) {
             std::ostringstream errorhintstream;
             errorhintstream << errorhint << line << std::endl;
             errorhint = errorhintstream.str();
@@ -284,9 +255,7 @@ int main(int argc, char* argv[])
     }
 
     if (testname.length() > 0)
-    {
         finalizeTest(testname, testCaseId, failure, duration, errorhint);
-    }
 
     // finish run
     TestRunStop();
@@ -295,4 +264,3 @@ int main(int argc, char* argv[])
 
     return 0;
 }
-
