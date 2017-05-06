@@ -81,9 +81,35 @@ git clone https://github.com/bugzilla/extensions-Testopia.git
 wget -O ~/Downloads/testopia-2.4-BUGZILLA-3.6.tar.gz https://ftp.mozilla.org/pub/mozilla.org/webtools/testopia/testopia-2.4-BUGZILLA-3.6.tar.gz
 git clone https://github.com/jpoehls/extjs-3.2.1.git
 cp -r bugzilla html
-tar -C html -x -f ~/Downloads/testopia-2.4-BUGZILLA-3.6.tar.gz ./tr_builds.cgi ./tr_list_plans.cgi ./tr_show_plan.cgi ./tr_list_runs.cgi ./tr_list_cases.cgi ./tr_categories.cgi ./tr_list_environments.cgi ./tr_show_product.cgi
+tar -C html -x -f ~/Downloads/testopia-2.4-BUGZILLA-3.6.tar.gz ./tr_builds.cgi ./tr_list_plans.cgi ./tr_show_plan.cgi ./tr_list_runs.cgi ./tr_list_cases.cgi ./tr_categories.cgi ./tr_list_environments.cgi ./tr_show_product.cgi ./tr_list_caseruns.cgi
 cp -r extensions-Testopia/* html/
 cp -r extjs-3.2.1 html/extensions/Testopia/extjs
+
+patch -p0 <<EOF 
+--- html/tr_process_case.cgi.orig	2017-05-07 00:29:16.383610299 +0200
++++ html/tr_process_case.cgi	2017-05-07 00:32:26.638922963 +0200
+@@ -218,19 +218,6 @@
+         ThrowUserError("testopia-read-only", {'object' => $case});
+     }
+     $case->text;
+-    foreach my $field qw(action effect) {
+-        $case->{text}->{$field} =~ s/(<br[\s\/>]+|<p.*?>|<li.*?>)/\n/g;
+-        $case->{text}->{$field} =~ s/<.*?>//g;
+-        # Trivial HTML tag remover
+-        $case->{text}->{$field} =~ s/<[^>]*>//g;
+-        # And this basically reverses the html filter.
+-        $case->{text}->{$field} =~ s/\&#64;/@/g;
+-        $case->{text}->{$field} =~ s/\&lt;/</g;
+-        $case->{text}->{$field} =~ s/\&gt;/>/g;
+-        $case->{text}->{$field} =~ s/\&quot;/\"/g;
+-        $case->{text}->{$field} =~ s/\&nbsp;/ /g;
+-        $case->{text}->{$field} =~ s/\&amp;/\&/g;
+-    }
+     my $vars;
+     $vars->{'caserun'} = Bugzilla::Extension::Testopia::TestCaseRun->new($cgi->param('caserun_id')) if $cgi->param('caserun_id');
+     $vars->{'case'} = $case;
+EOF
+
 chown -R www-data html
 chgrp -R www-data html
 ```
@@ -105,7 +131,7 @@ ServerName localhost
   AuthName "Basic Authentication"
   AuthUserFile /etc/apache2/.htpasswd
   require valid-user
-</Directory>    
+</Directory>
 EOF
 
 a2enmod cgi headers expires rewrite
